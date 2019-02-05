@@ -78,7 +78,6 @@ class Constraints extends Component {
         }
 
         {constraints.get('pattern') && <li>pattern: {constraints.get('pattern')}</li>}
-        {constraints.get('cfNotes') && <li>notes: {constraints.get('cfNotes')}</li>}
       </ul>
     );
   }

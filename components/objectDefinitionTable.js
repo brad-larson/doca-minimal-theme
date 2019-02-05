@@ -12,11 +12,12 @@ class ObjectDefinitionTable extends Component {
   static propTypes = {
     definitions: ImmutablePropTypes.map,
     contextId: React.PropTypes.string,
-    fieldPointer: React.PropTypes.string
+    fieldPointer: React.PropTypes.string,
   };
 
   render() {
     const { definitions } = this.props;
+    console.log(definitions)
     return (
       <table className="table table-hover">
         <thead>
@@ -27,8 +28,9 @@ class ObjectDefinitionTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {definitions && definitions.entrySeq().map(([key, definition]) =>
-            <tr key={key}>
+          {definitions && definitions.entrySeq().map(([key, definition]) => {
+            console.log(key, definition)
+            return <tr key={key}>
               <td>
                 <p>
                   <strong>{key}</strong><br />
@@ -102,8 +104,8 @@ class ObjectDefinitionTable extends Component {
               <td>
                 <Constraints constraints={definition} />
               </td>
-            </tr>
-          )}
+          </tr>
+          })}
         </tbody>
       </table>
     );

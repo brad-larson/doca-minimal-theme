@@ -1,5 +1,4 @@
 const React = require('react');
-const Endpoint = require('./endpoint');
 const ObjectDefinitionTable = require('./objectDefinitionTable');
 const MarkdownPreview = require('react-marked-markdown').MarkdownPreview;
 const ImmutablePropTypes = require('react-immutable-proptypes');
@@ -12,19 +11,8 @@ class Schema extends Component {
     schema: ImmutablePropTypes.map.isRequired,
   };
 
-  state = {
-    showDefinition: false,
-  };
-
-  handleToggle = () => {
-    this.setState(prevState => ({
-      showDefinition: !prevState.showDefinition,
-    }));
-  };
-
   render() {
     const { schema } = this.props;
-    const { showDefinition } = this.state;
     return (
       <article className="panel panel-primary">
         <div className="panel-heading">
@@ -33,21 +21,6 @@ class Schema extends Component {
         </div>
         <div className="panel-body">
           <h3>{schema.get('description')}</h3>
-          {schema.get('cfExtendedDescription') &&
-            <MarkdownPreview value={schema.get('cfExtendedDescription')} />}
-
-          <header id={`${schema.get('html_id')}-properties`}>
-            {IS_JAVASCRIPT &&
-              <p>
-                <a onClick={this.handleToggle} className="btn btn-info">
-                  <span>{showDefinition ? 'Hide' : 'Show'}</span>{' '}
-                  properties and constraints defined on the object
-                </a>
-              </p>
-            }
-          </header>
-
-          {(showDefinition || !IS_JAVASCRIPT) &&
             <div>
               {schema.getIn(['object_definition', 'objects']).count() ?
                 <div>
@@ -84,20 +57,10 @@ class Schema extends Component {
                 </div>
               }
             </div>
-          }
-        </div>
-        <div className="list-group">
-          {schema
-            .get('links')
-            .filter(link => !link.get('cfPrivate'))
-            .valueSeq()
-            .map(link => <Endpoint key={link.get('html_id')} link={link} />)
-          }
         </div>
       </article>
     );
   }
-
 }
 
 module.exports = Schema;

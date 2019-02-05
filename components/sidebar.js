@@ -62,7 +62,7 @@ class Sidebar extends Component {
     // list of all link #ids
     const ids = this.props.schemas.reduce((result, schema) => {
       let res = result;
-      if (!schema.get('cfHidden')) {
+      if (!schema.get('hidden')) {
         res = res.concat([schema.get('html_id')]);
         res = res.concat([`${schema.get('html_id')}-properties`]);
       }
@@ -113,27 +113,14 @@ class Sidebar extends Component {
             onChange={this.handleSearchChange}
           />
         </div>
-        {schemas.filter(schema => !schema.get('cfHidden')).valueSeq().map(schema =>
-          (getLinks(schema.get('links'), search).count() > 0 ?
-            <ul className="sidebar-nav" key={schema.get('id')}>
-              <li className="sidebar-category"><a href={`#${schema.get('html_id')}`}>{schema.get('title')}</a></li>
-              {getLinks(schema.get('links'), search).valueSeq().map(link =>
-                <li
-                  key={link.get('html_id')}
-                  className={link.get('html_id') === activeId ? 'active' : ''}
-                >
-                  <a href={`#${link.get('html_id')}`}>
-                    {link.get('title')}
-                  </a>
-                </li>
-              )}
-            </ul>
-          : null)
+        {schemas.map(schema =>
+          <ul className="sidebar-nav" key={schema.get('id')}>
+            <li className="sidebar-category"><a href={`#${schema.get('html_id')}`}>{schema.get('title')}</a></li>
+          </ul>
         )}
       </nav>
     );
   }
-
 }
 
 module.exports = Sidebar;
